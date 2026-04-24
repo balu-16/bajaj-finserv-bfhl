@@ -1,26 +1,17 @@
 # SRM Full Stack Engineering Challenge
 
-This repository contains a complete solution for the challenge with:
+This is my submission for the SRM Full Stack Engineering Challenge.
 
-- a Vercel-ready Express backend exposed publicly at `/bfhl`
-- a React single-page frontend that submits edge input and renders the API output
+The project has two parts:
 
-## Project layout
+- a backend API built with Node.js and Express
+- a single-page frontend built with React
 
-```text
-backend/
-  api/bfhl.js
-  src/
-  tests/
-frontend/
-  src/
-package.json
-README.md
-```
+The backend exposes `POST /bfhl`, and the frontend lets the evaluator paste the node list, submit it to the hosted API, and view the response in a clean structured layout.
 
-## What the backend does
+## What this project does
 
-The API accepts a payload like:
+The API accepts input in this form:
 
 ```json
 {
@@ -28,38 +19,47 @@ The API accepts a payload like:
 }
 ```
 
-It then:
+From that input, it:
 
-1. trims every entry before validation
-2. validates against the exact pattern `^[A-Z]->[A-Z]$`
-3. rejects self-loops such as `A->A`
-4. records repeated valid edges exactly once in `duplicate_edges`
-5. keeps only the first valid parent assignment for any child
-6. builds connected components with undirected adjacency
-7. detects cycles at the component level
-8. returns deterministic hierarchies in lexicographic order
+- validates each entry after trimming whitespace
+- rejects malformed edges and self-loops
+- detects duplicate edges
+- enforces the first-parent rule
+- builds disconnected hierarchies correctly
+- detects cyclic components
+- returns nested tree objects for valid components
+- generates the required summary fields
 
-## Determinism notes
+The frontend is kept intentionally simple for evaluation:
 
-To keep the output evaluator-friendly, the implementation applies deterministic ordering at:
+- a textarea to enter the node list
+- a submit button that calls the hosted `/bfhl` API
+- a readable response section for hierarchies, invalid entries, duplicates, and summary
+- a visible error message when the API request fails
 
-- root selection
-- child ordering inside each tree
-- component processing
-- the final `hierarchies` array
+## Tech stack
 
-## Local setup
+- Backend: Node.js, Express
+- Frontend: React, Vite
+- Deployment: Vercel
 
-Install dependencies from the repository root:
+## Project structure
+
+```text
+backend/
+  api/
+  src/
+frontend/
+  src/
+README.md
+```
+
+## Running locally
+
+Install everything from the root:
 
 ```bash
 npm run install:all
-```
-
-Run backend tests:
-
-```bash
-npm test
 ```
 
 Run the frontend:
@@ -69,20 +69,28 @@ cd frontend
 npm run dev
 ```
 
-To test the backend locally as a Vercel function:
+Run the backend with Vercel dev:
 
 ```bash
 cd backend
 npx vercel dev
 ```
 
-If you want the local frontend to talk to the backend running through Vercel dev, create `frontend/.env.local`:
+If the frontend should call the backend running on your machine, set this in `frontend/.env.local`:
 
 ```bash
 VITE_API_BASE_URL=http://localhost:3000
 ```
 
-## Sample API request
+## API endpoint
+
+Public route:
+
+```text
+POST /bfhl
+```
+
+Sample local request:
 
 ```bash
 curl -X POST http://localhost:3000/bfhl \
@@ -100,47 +108,37 @@ curl -X POST http://localhost:3000/bfhl \
 
 ## Deployment
 
-Deploy the backend and frontend as two separate Vercel projects from the same repository.
+Both frontend and backend are meant to be deployed as separate Vercel projects from the same repository.
 
-### Backend deployment
+### Backend
 
-1. Create a new Vercel project.
-2. Set the project root to `backend`.
-3. Deploy it as-is. The function file is `backend/api/bfhl.js`, and `backend/vercel.json` rewrites the public route to it.
+- Set the Vercel project root to `backend`
+- The function entry is `backend/api/bfhl.js`
+- `backend/vercel.json` routes incoming requests to the backend function
+
+Deployed API format:
 
 ```text
 https://<your-backend-domain>/bfhl
 ```
 
-No `app.listen()` call is used in the deployed path.
+### Frontend
 
-### Frontend deployment
-
-1. Create a second Vercel project.
-2. Set the project root to `frontend`.
-3. Add the environment variable from `frontend/.env.example`:
+- Set the Vercel project root to `frontend`
+- Add the backend base URL as an environment variable
 
 ```text
 VITE_API_BASE_URL=https://<your-backend-domain>
 ```
 
-4. Deploy the frontend.
+The frontend then sends requests to:
 
-The SPA will call `${VITE_API_BASE_URL}/bfhl`, which matches the public backend route in both local and deployed environments.
+```text
+${VITE_API_BASE_URL}/bfhl
+```
 
-## Submission checklist
+## Notes
 
-Before publishing the final challenge submission:
-
-1. replace the placeholder identity values in `backend/src/config/identity.js`
-2. make sure `user_id` follows the `fullname_ddmmyyyy` format exactly
-3. re-run backend tests
-4. verify the deployed frontend is pointed at the deployed backend
-
-## Verification completed
-
-The current implementation has already been checked with:
-
-- backend integration tests for the required sample and edge cases
-- frontend linting
-- frontend production build
+- `user_id` follows the required `fullname_ddmmyyyy` format
+- the API is public and can be accessed from any website
+- the response is deterministic and follows the structure required in the challenge

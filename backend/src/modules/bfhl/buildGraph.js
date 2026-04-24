@@ -54,7 +54,7 @@ function buildGraph(validEdges) {
 function discoverComponents(allNodes, undirectedAdjacency) {
   const visited = new Set();
   const components = [];
-  const orderedNodes = [...allNodes].sort(compareLetters);
+  const orderedNodes = [...allNodes];
 
   for (const node of orderedNodes) {
     if (visited.has(node)) {

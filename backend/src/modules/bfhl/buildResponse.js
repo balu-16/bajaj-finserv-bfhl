@@ -31,8 +31,6 @@ function buildResponse(data) {
     });
   }
 
-  hierarchies.sort((left, right) => compareLetters(left.root, right.root));
-
   let totalTrees = 0;
   let totalCycles = 0;
   let largestTreeRoot = '';

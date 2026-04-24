@@ -8,7 +8,6 @@
 .hero-panel,
 .panel {
   background: var(--panel-bg);
-  border: 1px solid var(--border);
   border-radius: 20px;
   box-shadow: var(--shadow);
 }
@@ -36,13 +35,14 @@
 
 .hero-copy {
   max-width: 60rem;
+  color: var(--muted);
 }
 
 .endpoint-card {
-  border: 1px solid var(--border);
   border-radius: 18px;
   padding: 18px;
   background: var(--surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .endpoint-label {
@@ -97,7 +97,8 @@
   padding: 16px;
   font: 0.98rem/1.5 var(--mono);
   color: var(--text-h);
-  background: var(--surface);
+  background: #ffffff;
+  box-shadow: inset 0 1px 2px rgba(44, 30, 22, 0.04);
 }
 
 .input-helper {
@@ -105,7 +106,14 @@
   font-size: 0.96rem;
 }
 
-.edge-textarea:focus-visible,
+.edge-textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 4px var(--accent-soft),
+    inset 0 1px 2px rgba(44, 30, 22, 0.04);
+}
+
 .primary-button:focus-visible,
 .secondary-button:focus-visible {
   outline: 3px solid var(--accent-soft);
@@ -134,12 +142,17 @@
 
 .primary-button {
   background: var(--accent);
-  color: #fff;
+  color: #fffdf9;
+  box-shadow: 0 8px 18px rgba(164, 117, 81, 0.24);
 }
 
 .primary-button:hover:not(:disabled),
 .secondary-button:hover:not(:disabled) {
   transform: translateY(-1px);
+}
+
+.primary-button:hover:not(:disabled) {
+  background: var(--accent-hover);
 }
 
 .primary-button:disabled,
@@ -149,9 +162,13 @@
 }
 
 .secondary-button {
-  background: var(--surface);
+  background: #f6efe8;
   color: var(--text-h);
-  border-color: var(--border);
+  border-color: #e2d5cd;
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: #efe3da;
 }
 
 .error-banner {
@@ -160,6 +177,7 @@
   padding: 12px 14px;
   color: var(--error-text);
   background: var(--error-bg);
+  box-shadow: var(--shadow-soft);
 }
 
 .results-layout {
@@ -176,10 +194,10 @@
 }
 
 .hierarchy-card {
-  border: 1px solid var(--border);
   border-radius: 18px;
   padding: 20px;
   background: var(--surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .hierarchy-header {
@@ -202,6 +220,7 @@
   padding: 8px 12px;
   font-size: 0.95rem;
   font-weight: 700;
+  box-shadow: inset 0 0 0 1px rgba(164, 117, 81, 0.08);
 }
 
 .status-tree {
@@ -244,7 +263,8 @@
   padding: 8px 12px;
   font-weight: 700;
   color: var(--text-h);
-  background: var(--panel-bg);
+  background: #f7efe9;
+  box-shadow: inset 0 0 0 1px rgba(164, 117, 81, 0.08);
 }
 
 .cycle-copy,
@@ -260,6 +280,8 @@
 
 .pill-item code {
   display: inline-block;
+  background: var(--warning-bg);
+  color: var(--warning-text);
 }
 
 .summary-grid {
@@ -275,17 +297,17 @@
 }
 
 .summary-grid div {
-  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 14px 16px;
   background: var(--surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .identity-grid div {
-  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 14px 16px;
   background: var(--surface);
+  box-shadow: var(--shadow-soft);
 }
 
 .summary-grid dt {
