@@ -18,6 +18,13 @@
   text-align: left;
 }
 
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.9fr);
+  gap: 20px;
+  align-items: start;
+}
+
 .eyebrow {
   margin-bottom: 12px;
   font-size: 0.9rem;
@@ -29,6 +36,31 @@
 
 .hero-copy {
   max-width: 60rem;
+}
+
+.endpoint-card {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  background: var(--surface);
+}
+
+.endpoint-label {
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.endpoint-code {
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.endpoint-copy {
+  color: var(--muted);
 }
 
 .panel {
@@ -66,6 +98,11 @@
   font: 0.98rem/1.5 var(--mono);
   color: var(--text-h);
   background: var(--surface);
+}
+
+.input-helper {
+  color: var(--muted);
+  font-size: 0.96rem;
 }
 
 .edge-textarea:focus-visible,
@@ -231,7 +268,20 @@
   margin: 0;
 }
 
+.identity-grid {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
 .summary-grid div {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 14px 16px;
+  background: var(--surface);
+}
+
+.identity-grid div {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 14px 16px;
@@ -243,11 +293,27 @@
   font-size: 0.95rem;
 }
 
+.identity-grid dt {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
 .summary-grid dd {
   margin: 8px 0 0;
   color: var(--text-h);
   font-size: 1.4rem;
   font-weight: 700;
+}
+
+.identity-grid dd {
+  margin: 8px 0 0;
+  color: var(--text-h);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.identity-email {
+  overflow-wrap: anywhere;
 }
 
 .empty-state-panel {
@@ -271,6 +337,7 @@
     padding: 24px 16px 40px;
   }
 
+  .hero-grid,
   .results-layout {
     grid-template-columns: 1fr;
   }

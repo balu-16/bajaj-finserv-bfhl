@@ -68,6 +68,30 @@ function Summary({ summary }) {
   );
 }
 
+function IdentityCard({ result }) {
+  return (
+    <section className="panel summary-panel">
+      <div className="panel-heading">
+        <h2>Backend identity</h2>
+      </div>
+      <dl className="identity-grid">
+        <div>
+          <dt>User ID</dt>
+          <dd>{result.user_id}</dd>
+        </div>
+        <div>
+          <dt>Email</dt>
+          <dd className="identity-email">{result.email_id}</dd>
+        </div>
+        <div>
+          <dt>College roll number</dt>
+          <dd>{result.college_roll_number}</dd>
+        </div>
+      </dl>
+    </section>
+  );
+}
+
 function App() {
   const [input, setInput] = useState(SAMPLE_INPUT);
   const [result, setResult] = useState(null);
@@ -94,18 +118,28 @@ function App() {
 
   return (
     <main className="page-shell">
-      <section className="hero-panel">
-        <p className="eyebrow">SRM Full Stack Engineering Challenge</p>
-        <h1>Hierarchy parser and analyzer</h1>
-        <p className="hero-copy">
-          Submit one edge per line, call the backend API, and inspect the resulting trees,
-          cycles, duplicates, invalid entries, and summary in a single place.
-        </p>
+      <section className="hero-panel hero-grid">
+        <div>
+          <p className="eyebrow">SRM Full Stack Engineering Challenge</p>
+          <h1>Node hierarchy analyzer</h1>
+          <p className="hero-copy">
+            Enter the node list, submit it to the hosted <code>/bfhl</code> API, and review the
+            structured response as hierarchy cards, summary metrics, and validation results.
+          </p>
+        </div>
+        <div className="endpoint-card">
+          <p className="endpoint-label">Connected endpoint</p>
+          <code className="endpoint-code">POST /bfhl</code>
+          <p className="endpoint-copy">
+            The frontend sends your input as <code>{`{ "data": [...] }`}</code> and displays the
+            returned hierarchy analysis in a readable format.
+          </p>
+        </div>
       </section>
 
       <section className="panel form-panel">
         <div className="panel-heading">
-          <h2>Input</h2>
+          <h2>Enter node list</h2>
           <span className="line-count">{lineCount} line(s)</span>
         </div>
         <form onSubmit={handleSubmit} className="input-form">
@@ -120,9 +154,13 @@ function App() {
             spellCheck="false"
             placeholder="A->B&#10;A->C&#10;B->D"
           />
+          <p className="input-helper">
+            Add one relationship per line. Example: <code>A-&gt;B</code>, <code>A-&gt;C</code>,{' '}
+            <code>B-&gt;D</code>
+          </p>
           <div className="form-actions">
             <button className="primary-button" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Analyze hierarchy'}
+              {isSubmitting ? 'Submitting...' : 'Submit to /bfhl'}
             </button>
             <button
               className="secondary-button"
@@ -134,14 +172,19 @@ function App() {
             </button>
           </div>
         </form>
-        {error ? <p className="error-banner">{error}</p> : null}
+        {error ? (
+          <p className="error-banner">
+            API request failed. Please check the hosted backend URL and try again. Details: {error}
+          </p>
+        ) : null}
       </section>
 
       {result ? (
         <section className="results-layout">
           <section className="panel hierarchies-panel">
             <div className="panel-heading">
-              <h2>Hierarchies</h2>
+              <h2>Hierarchy response</h2>
+              <span className="line-count">{result.hierarchies.length} component(s)</span>
             </div>
             <div className="hierarchy-list">
               {result.hierarchies.map((hierarchy) => (
@@ -166,6 +209,7 @@ function App() {
           </section>
 
           <div className="side-panels">
+            <IdentityCard result={result} />
             <Summary summary={result.summary} />
             <ResultList
               title="Invalid entries"
@@ -181,9 +225,10 @@ function App() {
         </section>
       ) : (
         <section className="panel empty-state-panel">
-          <h2>Ready to analyze</h2>
+          <h2>Ready for API response</h2>
           <p className="empty-copy">
-            Submit the form to fetch the API response and render the hierarchy output here.
+            Submit the node list to <code>/bfhl</code> to render hierarchies, invalid entries,
+            duplicate edges, and the response summary here.
           </p>
         </section>
       )}
