@@ -338,6 +338,24 @@
   overflow-wrap: anywhere;
 }
 
+.raw-response-panel {
+  overflow: hidden;
+}
+
+.raw-response-block {
+  margin: 0;
+  max-height: 420px;
+  overflow: auto;
+  border-radius: 16px;
+  padding: 18px;
+  background: #2f211a;
+  color: #f8f1e8;
+  box-shadow: inset 0 0 0 1px rgba(255, 243, 224, 0.08);
+  font: 0.88rem/1.6 var(--mono);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .empty-state-panel {
   text-align: left;
 }

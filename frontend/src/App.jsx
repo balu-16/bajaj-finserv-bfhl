@@ -92,6 +92,19 @@ function IdentityCard({ result }) {
   );
 }
 
+function RawResponseCard({ result }) {
+  const formattedResponse = JSON.stringify(result, null, 2);
+
+  return (
+    <section className="panel raw-response-panel">
+      <div className="panel-heading">
+        <h2>Raw API response</h2>
+      </div>
+      <pre className="raw-response-block">{formattedResponse}</pre>
+    </section>
+  );
+}
+
 function App() {
   const [input, setInput] = useState(SAMPLE_INPUT);
   const [result, setResult] = useState(null);
@@ -221,6 +234,7 @@ function App() {
               items={result.duplicate_edges}
               emptyMessage="No duplicate edges were found."
             />
+            <RawResponseCard result={result} />
           </div>
         </section>
       ) : (
